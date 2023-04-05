@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +29,9 @@ public class GPSManager {
                 if (location != null) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    Toast.makeText(context, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context.getApplicationContext(), "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, "No se pudo obtener la ubicación", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context.getApplicationContext(), "No se pudo obtener la ubicación", Toast.LENGTH_LONG).show();
                 }
             }
 

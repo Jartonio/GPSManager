@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mGPSManager = new GPSManager(this);
         Location location = mGPSManager.getCurrentLocation();
 
