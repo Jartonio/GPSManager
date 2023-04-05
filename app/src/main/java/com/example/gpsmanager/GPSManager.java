@@ -7,6 +7,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 public class GPSManager {
 
@@ -21,11 +25,19 @@ public class GPSManager {
             @Override
             public void onLocationChanged(Location location) {
                 // Acción a realizar cuando la ubicación cambia
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    Toast.makeText(context, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "No se pudo obtener la ubicación", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 // Acción a realizar cuando cambia el estado del proveedor de ubicación
+
             }
 
             @Override
@@ -49,10 +61,13 @@ public class GPSManager {
             location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             // Escuchar cambios en la ubicación
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, mLocationListener);
+        }else {
+            Toast.makeText(mContext, "No tengo permiso de GPS", Toast.LENGTH_SHORT).show();
         }
 
         return location;
     }
+
 
 }
