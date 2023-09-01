@@ -1,12 +1,21 @@
 package com.example.gpsmanager;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 public class GPSManager {
 
@@ -18,9 +27,24 @@ public class GPSManager {
         mContext = context;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
+            @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onLocationChanged(Location location) {
                 // Acción a realizar cuando la ubicación cambia
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    Toast.makeText(context, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
+                    MainActivity mainActivity = (MainActivity) context;
+                    TextView miDisplay = mainActivity.findViewById(R.id.display);
+                    miDisplay.setText("Latitud: " + latitude + "\nLongitud: " + longitude);
+
+                } else {
+                    Toast.makeText(context, "No se pudo obtener la ubicación, revise los permisos o active el GPS", Toast.LENGTH_LONG).show();
+                    Log.d("prueba", "igual de null: ");
+
+                }
             }
 
             @Override
@@ -49,9 +73,10 @@ public class GPSManager {
             location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             // Escuchar cambios en la ubicación
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, mLocationListener);
+        } else {
+            Toast.makeText(mContext, "No se pudo obtener la ubicación, revise los permisos o active el GPS", Toast.LENGTH_LONG).show();
         }
-
         return location;
     }
 
