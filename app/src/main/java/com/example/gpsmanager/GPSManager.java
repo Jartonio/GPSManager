@@ -1,10 +1,16 @@
 package com.example.gpsmanager;
 
-import static android.app.PendingIntent.getActivity;
+
+
+
+import static android.content.Context.LOCATION_SERVICE;
+
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.GnssAntennaInfo;
+import android.location.GnssStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,21 +19,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.LongDef;
 import androidx.annotation.RequiresApi;
+
+import java.util.List;
+
 
 public class GPSManager {
 
-    private Context mContext;
-    private LocationManager mLocationManager;
-    private LocationListener mLocationListener;
+    private final Context mContext;
+    private final LocationManager mLocationManager;
+    private final LocationListener mLocationListener;
 
     public GPSManager(Context context) {
         mContext = context;
-        mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
-            @RequiresApi(api = Build.VERSION_CODES.R)
+            @RequiresApi(api = Build.VERSION_CODES.S)
             @Override
             public void onLocationChanged(Location location) {
                 // Acción a realizar cuando la ubicación cambia
@@ -35,8 +42,12 @@ public class GPSManager {
                 double longitude = location.getLongitude();
                 MainActivity mainActivity = (MainActivity) context;
                 TextView miDisplay = mainActivity.findViewById(R.id.display);
-                miDisplay.setText("Latitud: " + latitude + "\nLongitud: " + longitude);
-                Toast.makeText(mContext, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
+                miDisplay.setText(mainActivity.getString(R.string.latitud) + latitude + "\n"+mainActivity.getString(R.string.longitud) + longitude +"\nPrecisión: "+  location.getAccuracy());
+                Toast.makeText(mContext, "Obtenidos datos", Toast.LENGTH_LONG).show();
+                Log.d("prueba", ""+R.string.latitud+ latitude + " - "+  R.string.longitud +" - "+ longitude+ " - "+ location.getAccuracy());
+
+
+
             }
 
             @Override
@@ -77,6 +88,8 @@ public class GPSManager {
         }
         return location;
     }
+
+
 
 
 }

@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         mGPSManager = new GPSManager(this);
         Location location = mGPSManager.getCurrentLocation();
 
+
     }
 
 }
