@@ -11,10 +11,10 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.RequiresApi;
 
 public class GPSManager {
@@ -31,20 +31,12 @@ public class GPSManager {
             @Override
             public void onLocationChanged(Location location) {
                 // Acción a realizar cuando la ubicación cambia
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-
-                    Toast.makeText(context, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
-                    MainActivity mainActivity = (MainActivity) context;
-                    TextView miDisplay = mainActivity.findViewById(R.id.display);
-                    miDisplay.setText("Latitud: " + latitude + "\nLongitud: " + longitude);
-
-                } else {
-                    Toast.makeText(context, "No se pudo obtener la ubicación, revise los permisos o active el GPS", Toast.LENGTH_LONG).show();
-                    Log.d("prueba", "igual de null: ");
-
-                }
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                MainActivity mainActivity = (MainActivity) context;
+                TextView miDisplay = mainActivity.findViewById(R.id.display);
+                miDisplay.setText("Latitud: " + latitude + "\nLongitud: " + longitude);
+                Toast.makeText(mContext, "Latitud: " + latitude + "\nLongitud: " + longitude, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -55,11 +47,14 @@ public class GPSManager {
             @Override
             public void onProviderEnabled(String provider) {
                 // Acción a realizar cuando el proveedor de ubicación se habilita
+                Toast.makeText(context, "Buscando señal GPS.....", Toast.LENGTH_LONG).show();
+                getCurrentLocation();
             }
 
             @Override
             public void onProviderDisabled(String provider) {
                 // Acción a realizar cuando el proveedor de ubicación se deshabilita
+                Toast.makeText(context, "El GPS está desactivado.", Toast.LENGTH_LONG).show();
             }
         };
     }
@@ -75,9 +70,13 @@ public class GPSManager {
             // Escuchar cambios en la ubicación
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, mLocationListener);
         } else {
-            Toast.makeText(mContext, "No se pudo obtener la ubicación, revise los permisos o active el GPS", Toast.LENGTH_LONG).show();
+            MainActivity mainActivity = (MainActivity) this.mContext;
+            TextView miDisplay = mainActivity.findViewById(R.id.display);
+            miDisplay.setText("SE NECESITAN PERMISOS DE GPS.\n\nActive el permiso de GPS\ny\nvuelva a iniciar la aplicación.");
+            Toast.makeText(mContext, "NO TIENE PERMISOS GPS", Toast.LENGTH_LONG).show();
         }
         return location;
     }
+
 
 }
