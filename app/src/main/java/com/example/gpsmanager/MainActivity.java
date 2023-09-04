@@ -2,15 +2,10 @@ package com.example.gpsmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-    private GPSManager mGPSManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +13,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView miText = findViewById(R.id.display);
-        miText.setText(R.string.buscandoGPS);
+        miText.setText(R.string.buscando_GPS);
 
-        mGPSManager = new GPSManager(this);
+        GPSManager mGPSManager = new GPSManager(this);
 
-        Location location = mGPSManager.getCurrentLocation();
+       //Location location =mGPSManager.getCurrentLocation();
+        mGPSManager.getCurrentLocation();
+
+
     }
 
 }
