@@ -4,7 +4,6 @@ package com.example.gpsmanager;
 import static android.content.Context.LOCATION_SERVICE;
 
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -25,7 +24,7 @@ public class GPSManager {
     private final Context mContext;
     private final LocationManager mLocationManager;
     private final LocationListener mLocationListener;
-    private Boolean primerPaso=true;
+    private Boolean primerPaso = true;
 
     public GPSManager(Context context) {
         mContext = context;
@@ -42,21 +41,20 @@ public class GPSManager {
                 MainActivity mainActivity = (MainActivity) context;
                 TextView miDisplay = mainActivity.findViewById(R.id.display);
                 TextView miGrid = mainActivity.findViewById(R.id.grid);
-                int precision= (int)location.getAccuracy();
+                int precision = (int) location.getAccuracy();
 
-                if (primerPaso){
-                    primerPaso=false;
+                if (primerPaso) {
+                    primerPaso = false;
                     miDisplay.setText(R.string.buscando_GPS);
-                }else {
+                } else {
                     if (precision < R.integer.precision_minima) {
                         miDisplay.setText(mainActivity.getString(R.string.latitud) + latitude + "\n" + mainActivity.getString(R.string.longitud) + longitude + mainActivity.getString(R.string.precision) + precision);
                         Toast.makeText(mContext, R.string.datos_gps_correctos, Toast.LENGTH_LONG).show();
-                        miGrid.setText(""+calcularGrid(latitude,longitude));
+                        miGrid.setText("" + calcularGrid(latitude, longitude));
                     } else {
                         miDisplay.setText(R.string.precision_mala);
                         miGrid.setText("");
                     }
-                    Log.d("prueba", "Latitud: " + latitude + " Longuitud: " + longitude + " Precision: " + precision);
                 }
             }
 
@@ -100,22 +98,32 @@ public class GPSManager {
         }
         //return location;
     }
-public String calcularGrid(double latitude, double longitude) {
 
-    int lonIndex = (int) ((longitude + 180) / 20);
-    int latIndex = (int) ((latitude + 90) / 10);
+    public String calcularGrid(double latitude, double longitude) {
 
-    char[] locator = new char[6];
-    locator[0] = (char) ('A' + lonIndex);
-    locator[1] = (char) ('A' + latIndex);
+        double lonIndex =  ((longitude + 180) / 20);
+        double latIndex = ((latitude + 90) / 10);
 
-    locator[2] = (char) ('0' + ((longitude + 180) % 20) / 2);
-    locator[3] = (char) ('0' + (latitude + 90) % 10);
+        char[] grid = new char[10];
 
-    locator[4] = (char) ('a' + ((longitude + 180) % 2) * 12);
-    locator[5] = (char) ('a' + ((latitude + 90) % 1) * 24);
+        grid[0] = (char) ('A' + lonIndex);
+        grid[1] = (char) ('A' + latIndex);
 
-    return new String(locator);
+        grid[2] = (char) ('0' + ((longitude + 180) % 20) / 2);
+        grid[3] = (char) ('0' + (latitude + 90) % 10);
+
+        grid[4] = (char) ('a' + ((longitude + 180) % 2) * 12);
+        grid[5] = (char) ('a' + ((latitude + 90) % 1) * 24);
+
+        grid[6] = (char) ('0' + ((longitude + 180) % 0.5) * 10);
+        grid[7] = (char) ('0' + ((latitude + 90) % 0.25) * 40);
+
+        grid[8] = (char) ('a' + ((longitude + 180) % 0.05) * 200);
+        grid[9] = (char) ('a' + ((latitude + 90) % 0.025) * 400);
+
+
+
+        return new String(grid);
     }
 
 }
