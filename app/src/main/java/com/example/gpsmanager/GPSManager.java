@@ -3,7 +3,6 @@ package com.example.gpsmanager;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +48,7 @@ public class GPSManager {
                     if (precision < R.integer.precision_minima) {
                         miDisplay.setText(mainActivity.getString(R.string.latitud) + latitude + "\n" + mainActivity.getString(R.string.longitud) + longitude + mainActivity.getString(R.string.precision) + precision);
                         Toast.makeText(mContext, R.string.datos_gps_correctos, Toast.LENGTH_LONG).show();
-
                         miGrid.setText("" + calcularGrid( latitude, longitude));
-                        Log.d("grid", ""+miGrid.getText());
                     } else {
                         miDisplay.setText(R.string.precision_mala);
                         miGrid.setText("");
