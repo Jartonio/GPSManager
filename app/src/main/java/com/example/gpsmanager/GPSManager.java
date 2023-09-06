@@ -101,7 +101,7 @@ public class GPSManager {
 
     public String calcularGrid(double latitude, double longitude) {
 
-        double lonIndex =  ((longitude + 180) / 20);
+        /*double lonIndex =  ((longitude + 180) / 20);
         double latIndex = ((latitude + 90) / 10);
 
         char[] grid = new char[10];
@@ -120,6 +120,38 @@ public class GPSManager {
 
         grid[8] = (char) ('a' + ((longitude + 180) % 0.05) * 200);
         grid[9] = (char) ('a' + ((latitude + 90) % 0.025) * 400);
+
+*/double lonIndex = longitude + 180;
+        double latIndex = latitude + 90;
+
+        char[] grid = new char[6];
+
+        double lo,la,lor,lar;
+
+
+        lo=lonIndex/20;
+        lor=lonIndex%20;
+        la=latIndex/10;
+        lar=latIndex%10;
+        grid[0] = (char) ('A' + (int)lo);
+        grid[1] = (char) ('A' + (int)la);
+
+        lo=lor/2;
+        lor=lor%2;
+        la=lar/1;
+        lar=lar%1;
+        grid[2]= (char)('0' + (int)lo);
+        grid[3]= (char)('0' + (int)la);
+
+        lo=lor/0.08333333;
+        lor=lo%0.08333333;
+        la=lar/0.04166666;
+        lar=la%0.04166666;
+        grid[4]= (char)('a' + (int)lo);
+        grid[5]= (char)('a' + (int)la);
+
+
+
 
 
 
