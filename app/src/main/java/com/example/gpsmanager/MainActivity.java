@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //43.442402454187174, -5.854524152416852
 
 
-        String grid =calcularGrid(43.442402454187174,-5.854524152416852);
+        String grid =calcularGridminutos(90.99999999,-90.99999999);
         Log.d("prueba", "Coordenadas enviadas: 43.442402454187174, -5.854524152416852");
         Log.d("prueba", "grid: "+grid);
 
@@ -93,26 +93,73 @@ public class MainActivity extends AppCompatActivity {
         grid[2]= (char)('0' + lo);
         grid[3]= (char)('0' + la);
 
-        lo=lor/0.083333333333;
-        lor=lo%0.083333333333;
-        la=lar/0.041666666666;
-        lar=la%0.041666666666;
+        lo=lor/0.08333333333333;
+        lor=lo%0.08333333333333;
+        la=lar/0.04166666666666;
+        lar=la%0.04166666666666;
         grid[4]= (char)('A' + lo);
         grid[5]= (char)('A' + la);
 
-        lo=lor/0.008333333333;
-        lor=lo%0.008333333333;
-        la=lar/0.004166666666;
-        lar=la%0.004166666666;
+        lo=lor/0.00833333333333;
+        lor=lo%0.00833333333333;
+        la=lar/0.00416666666666;
+        lar=la%0.00416666666666;
         grid[6]= (char)('0' + lo);
         grid[7]= (char)('0' + la);
 
-        lo=lor/0.000347222222;
-        lor=lo%0.000347222222;
-        la=lar/0.000173611111;
-        lar=la%0.000173611111;
+        lo=lor/0.00034722222222;
+        lor=lo%0.00034722222222;
+        la=lar/0.00017361111111;
+        lar=la%0.00017361111111;
         grid[8]= (char)('A' + lo);
         grid[9]= (char)('A' + la);
+
+        return new String(grid);
+    }
+    public String calcularGridminutos(double latitude, double longitude) {
+
+
+        double lonIndex = (longitude + 180)*3600;
+        double latIndex = (latitude + 90)*3600;
+
+        char[] grid = new char[10];
+
+        double lo,la,lor,lar;
+
+        lo=(lonIndex/72000);
+        lor=lonIndex%72000;
+        la=latIndex/36000;
+        lar=latIndex%36000;
+        grid[0] = (char) ('A' + (lo));
+        grid[1] = (char) ('A' + (la));
+
+        lo=lor/7200;
+        lor=lor%7200;
+        la=lar/3600;
+        lar=lar%3600;
+        grid[2]= (char)('0' + (lo));
+        grid[3]= (char)('0' + (la));
+
+        lo=lor/300;
+        lor=lo%300;
+        la=lar/150;
+        lar=la%150;
+        grid[4]= (char)('A' + (lo));
+        grid[5]= (char)('A' + (la));
+
+        lo=lor/30;
+        lor=lo%30;
+        la=lar/15;
+        lar=la%15;
+        grid[6]= (char)('0' + (lo));
+        grid[7]= (char)('0' + (la));
+
+        lo=lor/1.25;
+        lor=lo%1.25;
+        la=lar/0.625;
+        lar=la%0.625;
+        grid[8]= (char)('A' + (lo));
+        grid[9]= (char)('A' + (la));
 
         return new String(grid);
     }
