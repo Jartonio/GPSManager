@@ -50,7 +50,9 @@ public class GPSManager {
                     if (precision < R.integer.precision_minima) {
                         miDisplay.setText(mainActivity.getString(R.string.latitud) + latitude + "\n" + mainActivity.getString(R.string.longitud) + longitude + mainActivity.getString(R.string.precision) + precision);
                         Toast.makeText(mContext, R.string.datos_gps_correctos, Toast.LENGTH_LONG).show();
-                        miGrid.setText("" + calcularGrid(latitude, longitude));
+
+                        miGrid.setText("" + calcularGrid( latitude, longitude));
+                        Log.d("grid", ""+miGrid.getText());
                     } else {
                         miDisplay.setText(R.string.precision_mala);
                         miGrid.setText("");
@@ -101,30 +103,11 @@ public class GPSManager {
 
     public String calcularGrid(double latitude, double longitude) {
 
-        /*double lonIndex =  ((longitude + 180) / 20);
-        double latIndex = ((latitude + 90) / 10);
 
-        char[] grid = new char[10];
-
-        grid[0] = (char) ('A' + lonIndex);
-        grid[1] = (char) ('A' + latIndex);
-
-        grid[2] = (char) ('0' + ((longitude + 180) % 20) / 2);
-        grid[3] = (char) ('0' + (latitude + 90) % 10);
-
-        grid[4] = (char) ('a' + ((longitude + 180) % 2) * 12);
-        grid[5] = (char) ('a' + ((latitude + 90) % 1) * 24);
-
-        grid[6] = (char) ('0' + ((longitude + 180) % 0.5) * 10);
-        grid[7] = (char) ('0' + ((latitude + 90) % 0.25) * 40);
-
-        grid[8] = (char) ('a' + ((longitude + 180) % 0.05) * 200);
-        grid[9] = (char) ('a' + ((latitude + 90) % 0.025) * 400);
-
-*/double lonIndex = longitude + 180;
+        double lonIndex = longitude + 180;
         double latIndex = latitude + 90;
 
-        char[] grid = new char[6];
+        char[] grid = new char[10];
 
         double lo,la,lor,lar;
 
@@ -143,16 +126,26 @@ public class GPSManager {
         grid[2]= (char)('0' + (int)lo);
         grid[3]= (char)('0' + (int)la);
 
-        lo=lor/0.08333333;
-        lor=lo%0.08333333;
-        la=lar/0.04166666;
-        lar=la%0.04166666;
-        grid[4]= (char)('a' + (int)lo);
-        grid[5]= (char)('a' + (int)la);
+        lo=lor/0.083333333333;
+        lor=lo%0.083333333333;
+        la=lar/0.041666666666;
+        lar=la%0.041666666666;
+        grid[4]= (char)('A' + (int)lo);
+        grid[5]= (char)('A' + (int)la);
 
+        lo=lor/0.008333333333;
+        lor=lo%0.008333333333;
+        la=lar/0.004166666666;
+        lar=la%0.004166666666;
+        grid[6]= (char)('0' + (int)lo);
+        grid[7]= (char)('0' + (int)la);
 
-
-
+        lo=lor/0.000347222222;
+        lor=lo%0.000347222222;
+        la=lar/0.000173611111;
+        lar=la%0.000173611111;
+        grid[8]= (char)('A' + (int)lo);
+        grid[9]= (char)('A' + (int)la);
 
 
         return new String(grid);
